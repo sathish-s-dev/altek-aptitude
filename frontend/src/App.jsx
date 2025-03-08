@@ -1,7 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
 
-import Login from "./components/Login";
+import Home from "./components/Home";
 import SendMail from "./components/SendMail";
 import Success from "./components/Success";
 import ThankYou from "./components/ThankYou";
@@ -15,8 +15,8 @@ function App() {
           <Route exact path="/sendmail" element={<SendMail />} />
           <Route path="/success" element={<Success />} />
           <Route path="/thankyou" element={<ThankYou />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Home />} />
         </Routes>
         {/* <Routes>
           <Route path="/" element={<MultistepForm />} />

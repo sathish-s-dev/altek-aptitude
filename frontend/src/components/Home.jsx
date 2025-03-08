@@ -509,6 +509,8 @@ const testPaper1 = [
   },
 ];
 
+
+
 const testPaper2 = [
   {
     id: 1,
@@ -2039,16 +2041,69 @@ const testPaper4 = [
   },
 ];
 
-function Login() {
+const questions = {
+  testpaper1: testPaper1,
+  testpaper2: testPaper2,
+  testpaper3: testPaper3,
+  testpaper4: testPaper4,
+};
+
+function Home() {
   // State variables to store email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPasswordError, setIsPasswordError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [testPaper, setTestPaper] = useState(null); // State to store user data after login
 
   // Function to handle form submission
+
+  // Render the appropriate test paper component based on the userData
+  // if (!testPaper) return null; // No data yet, return null
+  console.log(testPaper);
+  console.log(email);
+  console.log(password);
+
+  return (
+    <div className="bg-light">
+      <div id="appendTestPaper">
+        {isLoggedIn ? (
+          <ConductTest
+            questionPaper={testPaper}
+            questions={questions[testPaper]}
+            username={email}
+            password={password}
+          />
+        ) : (
+          <LoginForm
+            setTestPaper={setTestPaper}
+            email={email}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            password={password}
+            setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Home;
+
+function LoginForm({
+  setTestPaper,
+  email,
+  password,
+  setEmail,
+  setPassword,
+  setIsLoggedIn,
+  isLoggedIn,
+}) {
+  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const authenticateUserLogin = async () => {
     // Implement your authentication logic here
     // You can access email and password state variables to get user input
@@ -2078,14 +2133,18 @@ function Login() {
     setIsLoggedIn(false);
 
     try {
-      const userData = { mail: email, password: password };
-      const response = await axios.post(
-        apiUrl + "authenticateUserLogin?mail=" + email + "&password=" + password
-      ); // await added here
+      const userData = { email, password };
+      const response = await axios.post(apiUrl + "login", userData); // await added here
       console.log("Response:", response.data);
-      setTestPaper("testpaper1");
-      console.log("Mail sent successfully!");
-      setIsLoggedIn(true);
+      if (response.data.status === 200) {
+        setTestPaper("testpaper2");
+        console.log("Mail sent successfully!");
+        setIsLoggedIn(true);
+      } else {
+        console.log("Login failed!");
+        alert(response.data.message);
+        setIsLoggedIn(false);
+      }
       // Hide loader
 
       // Handle response as needed
@@ -2094,137 +2153,77 @@ function Login() {
       // Handle error as needed
     }
   };
-
-  // Render the appropriate test paper component based on the userData
-  const renderTestPaperComponent = () => {
-    if (!testPaper) return null; // No data yet, return null
-    console.log(testPaper);
-    console.log(email);
-    console.log(password);
-    switch (testPaper) {
-      case "testpaper1":
-        return (
-          <ConductTest
-            questionPaper={"testpaper1"}
-            questions={testPaper1}
-            username={email}
-            password={password}
-          />
-        );
-      case "testpaper2":
-        return (
-          <ConductTest
-            questionPaper={"testpaper2"}
-            questions={testPaper2}
-            username={email}
-            password={password}
-          />
-        );
-      case "testpaper3":
-        return (
-          <ConductTest
-            questionPaper={"testpaper3"}
-            questions={testPaper3}
-            username={email}
-            password={password}
-          />
-        );
-      case "testpaper4":
-        return (
-          <ConductTest
-            questionPaper={"testpaper4"}
-            questions={testPaper4}
-            username={email}
-            password={password}
-          />
-        );
-      // Add more cases for other test papers
-      default:
-        return null; // Handle unknown types or return a default component
-    }
-  };
-
   return (
-    <div className="bg-light">
-      <div id="appendTestPaper">
-        {isLoggedIn ? (
-          renderTestPaperComponent("testpaper1")
-        ) : (
-          <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Sign in to your account
-              </h2>
-            </div>
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Sign in to your account
+        </h2>
+      </div>
 
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
-              <div className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <span id="error-message" className="text-red-500">
-                      {errorMessage}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex items-center justify-between">
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Password
-                    </label>
-                  </div>
-                  <div className="mt-2">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <span id="error-message" className="text-red-500">
-                      {isPasswordError}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    type="submit"
-                    onClick={authenticateUserLogin}
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Sign in
-                  </button>
-                </div>
-              </div>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="space-y-6">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Email address
+            </label>
+            <div className="mt-2">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <span id="error-message" className="text-red-500">
+                {errorMessage}
+              </span>
             </div>
           </div>
-        )}
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span id="error-message" className="text-red-500">
+                {isPasswordError}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              onClick={authenticateUserLogin}
+              className="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Sign in
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-export default Login;
