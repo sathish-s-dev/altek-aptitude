@@ -31,6 +31,9 @@ public class Student {
     private String branch;
 
     @Column(nullable = false)
+    private String college;
+
+    @Column(nullable = false)
     // @GeneratedValue(strategy)
     @CreationTimestamp
     private String createdAt;

@@ -90,18 +90,18 @@ public class StudentService {
             // long time = timeElapsed();
             System.out.println(time);
             if (time >= 1) {
-                return new ResponseDto("Password is expired", 401, null);
+                return new ResponseDto("Password is expired", 401, null, null);
             } else if (student.get().getPassword().equals(password)) {
                 System.out.println("Login successful for: " + email);
-                return new ResponseDto("Login successful", 200, "testpaper1");
+                return new ResponseDto("Login successful", 200, "testpaper1", student.get());
             } else {
                 System.out.println("Entered password is incorrect");
-                return new ResponseDto("Entered password is incorrect", 400, null);
+                return new ResponseDto("Entered password is incorrect", 400, null, null);
             }
 
         } else {
             System.out.println("Account does not exist");
-            return new ResponseDto("Account does not exist", 400, null);
+            return new ResponseDto("Account does not exist", 400, null, null);
         }
     }
 
