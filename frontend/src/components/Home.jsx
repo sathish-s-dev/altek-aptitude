@@ -509,8 +509,6 @@ const testPaper1 = [
   },
 ];
 
-
-
 const testPaper2 = [
   {
     id: 1,
@@ -2134,12 +2132,15 @@ function LoginForm({
 
     try {
       const userData = { email, password };
+      console.log(userData);
       const response = await axios.post(apiUrl + "login", userData); // await added here
       console.log("Response:", response.data);
+      console.log(response.data.status);
       if (response.data.status === 200) {
         setTestPaper("testpaper2");
         console.log("Mail sent successfully!");
         setIsLoggedIn(true);
+        localStorage.setItem("student", JSON.stringify(response.data?.student));
       } else {
         console.log("Login failed!");
         alert(response.data.message);

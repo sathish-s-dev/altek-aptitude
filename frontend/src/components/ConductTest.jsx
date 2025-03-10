@@ -50,7 +50,7 @@ const Question = ({ question, handleAnswer }) => {
   );
 };
 
-const testPaper1Ans = [
+const answers1 = [
   { id: 1, answer: "1" }, // Sunday
   { id: 2, answer: "3" }, // Wednesday
   { id: 3, answer: "1" }, // 12π cm³
@@ -103,7 +103,7 @@ const testPaper1Ans = [
   { id: 50, answer: "2" }, // 3
 ];
 
-const testPaper2Ans = [
+const answers2 = [
   { id: 1, answer: "3" }, // Friday
   { id: 2, answer: "4" }, // 4th, 11th, 18th, 25th
   { id: 3, answer: "3" }, // 1200
@@ -156,58 +156,175 @@ const testPaper2Ans = [
   { id: 50, answer: "2" }, // 20 : 49 : 64
 ];
 
+const answers3 = [
+  { id: 1, answer: "1" }, // Sunday
+  { id: 2, answer: "3" }, // Tuesday
+  { id: 3, answer: "2" }, // 3.696 kg
+  { id: 4, answer: "2" }, // 7 : 3
+  { id: 5, answer: "3" }, // 111
+  { id: 6, answer: "2" }, // 630
+  { id: 7, answer: "2" }, // Rs.2400
+  { id: 8, answer: "3" }, // 62.5
+  { id: 9, answer: "3" }, // 2.9
+  { id: 10, answer: "2" }, // 13
+  { id: 11, answer: "3" }, // 0.954
+  { id: 12, answer: "2" }, // 3
+  { id: 13, answer: "2" }, // 18 cm
+  { id: 14, answer: "4" }, // 28%
+  { id: 15, answer: "2" }, // 8
+  { id: 16, answer: "4" }, // 11
+  { id: 17, answer: "1" }, // 21211
+  { id: 18, answer: "2" }, // 56
+  { id: 19, answer: "3" }, // Rs.900
+  { id: 20, answer: "3" }, // 153600m²
+  { id: 21, answer: "2" }, // 10 sec
+  { id: 22, answer: "1" }, // 150 km
+  { id: 23, answer: "3" }, // 10202
+  { id: 24, answer: "2" }, // 27
+  { id: 25, answer: "4" }, // 2018
+  { id: 26, answer: "3" }, // 176
+  { id: 27, answer: "2" }, // 2
+  { id: 28, answer: "4" }, // None of these
+  { id: 29, answer: "4" }, // 15!
+  { id: 30, answer: "3" }, // 245 m
+  { id: 31, answer: "3" }, // 72 km/hr
+  { id: 32, answer: "2" }, // 3:2
+  { id: 33, answer: "1" }, // 40 sec
+  { id: 34, answer: "2" }, // 12
+  { id: 35, answer: "2" }, // 150 m
+  { id: 36, answer: "4" }, // 150 metres
+  { id: 37, answer: "3" }, // 48 sec
+  { id: 38, answer: "2" }, // 200 m
+  { id: 39, answer: "4" }, // 3:2
+  { id: 40, answer: "3" }, // 1000 sq m
+  { id: 41, answer: "2" }, // 7.2
+  { id: 42, answer: "1" }, // 36 km/hr
+  { id: 43, answer: "2" }, // 224 km
+  { id: 44, answer: "3" }, // 60 km
+  { id: 45, answer: "3" }, // 71.11 km/hr
+  { id: 46, answer: "2" }, // 20 min
+  { id: 47, answer: "1" }, // 30 min
+  { id: 48, answer: "1" }, // 1 hr
+  { id: 49, answer: "4" }, // 12 km/hr
+  { id: 50, answer: "2" }, // 15 km
+];
+
+const answers4 = [
+  { id: 1, answer: "3" },
+  { id: 2, answer: "3" },
+  { id: 3, answer: "2" },
+  { id: 4, answer: "2" },
+  { id: 5, answer: "4" },
+  { id: 6, answer: "4" },
+  { id: 7, answer: "3" },
+  { id: 8, answer: "3" },
+  { id: 9, answer: "3" },
+  { id: 10, answer: "4" },
+  { id: 11, answer: "3" },
+  { id: 12, answer: "2" },
+  { id: 13, answer: "3" },
+  { id: 14, answer: "2" },
+  { id: 15, answer: "2" },
+  { id: 16, answer: "2" },
+  { id: 17, answer: "2" },
+  { id: 18, answer: "1" },
+  { id: 19, answer: "2" },
+  { id: 20, answer: "2" },
+  { id: 21, answer: "4" },
+  { id: 22, answer: "4" },
+  { id: 23, answer: "2" },
+  { id: 24, answer: "2" },
+  { id: 25, answer: "3" },
+  { id: 26, answer: "30" },
+  { id: 27, answer: "2" },
+  { id: 28, answer: "1" },
+  { id: 29, answer: "2" },
+  { id: 30, answer: "3" },
+  { id: 31, answer: "3" },
+  { id: 32, answer: "2" },
+  { id: 33, answer: "2" },
+  { id: 34, answer: "3" },
+  { id: 35, answer: "2" },
+  { id: 36, answer: "3" },
+  { id: 37, answer: "4" },
+  { id: 38, answer: "4" },
+  { id: 39, answer: "4" },
+  { id: 40, answer: "3" },
+  { id: 41, answer: "2" },
+  { id: 42, answer: "1" },
+  { id: 43, answer: "3" },
+  { id: 44, answer: "2" },
+  { id: 45, answer: "2" },
+  { id: 46, answer: "4" },
+  { id: 47, answer: "2" },
+  { id: 48, answer: "3" },
+  { id: 49, answer: "3" },
+  { id: 50, answer: "3" },
+];
+
 const answerMapping = {
-  testpaper1: testPaper1Ans,
-  testpaper2: testPaper2Ans,
+  testpaper1: answers1,
+  testpaper2: answers2,
+  testpaper3: answers3,
+  testpaper4: answers4,
 };
 
 function ConductTest({ questionPaper, questions, username, password }) {
   const [answers, setAnswers] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission status
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [student, setStudent] = useState(
+    JSON.parse(localStorage.getItem("student"))
+  );
 
   const handleAnswer = (questionId, answer) => {
-    console.log("questionid :", questionId, answer);
-    // If answer is null, mark the question as skipped
-    const updatedAnswer = answer !== null ? answer : "skipped";
+    console.log("questionid:", questionId, answer);
+
+    const foundAnswer = answerMapping[questionPaper].find(
+      (ans) => ans.id === questionId
+    );
+
+    let isCorrect = foundAnswer
+      ? foundAnswer.answer === answer
+        ? "correct"
+        : "incorrect"
+      : "skipped";
 
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
-      ["question-" + questionId]: updatedAnswer,
+      [`question-${questionId}`]: isCorrect,
     }));
   };
 
-  // Function to convert test paper name to desired format
-
+  // Function to submit answers
   const handleSubmit = async () => {
     let totalAnswered = 0;
     let correctAnswers = 0;
     let skippedQuestions = 0;
 
-    questions.forEach((question) => {
-      const userAnswer = answers[`question-${question.id}`];
-      console.log(
-        userAnswer,
-        answerMapping["testpaper1"][question.id]?.answer,
-        "userAnswer"
-      );
-      if (userAnswer) {
-        if (userAnswer === +answerMapping[questionPaper][question.id]?.answer) {
-          correctAnswers++; // Increment correct answer count
-        }
+    console.log("Answers before submission:", answers);
+
+    // Iterate over object values correctly
+    Object.values(answers).forEach((answer) => {
+      if (answer !== "skipped") {
         totalAnswered++;
+        if (answer === "correct") {
+          correctAnswers++;
+        }
       } else {
-        skippedQuestions++; // Increment skipped count
+        skippedQuestions++;
       }
     });
 
     const submissionData = {
-      email: username,
-      name: username,
+      email: student.email,
+      name: student.name,
+      college: student.college,
       testpaper: questionPaper,
       totalAnswered,
       correctAnswers,
       marks: correctAnswers,
-      skippedQuestions,
+      skippedQuestions: 50 - totalAnswered,
     };
 
     console.log("Final Submission Object:", submissionData);
