@@ -1,42 +1,38 @@
 package com.altek.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
+import java.time.Instant;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
-@Entity
-@Table(name = "students")
+@Document(collection = "students")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
 public class Student {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String branch;
 
-    @Column(nullable = false)
     private String college;
 
-    @Column(nullable = false)
     // @GeneratedValue(strategy)
-    @CreationTimestamp
-    private String createdAt;
+    @CreatedDate
+    private Instant createdAt;
 
     public String getEmail() {
         // log.info("Sending email to: {}", email);

@@ -3,6 +3,8 @@ import { useState } from "react";
 import axios from "axios";
 import { apiUrl } from "./Globals";
 import ConductTest from "./ConductTest";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const testPaper1 = [
   {
@@ -2140,6 +2142,7 @@ function LoginForm({
         setTestPaper("testpaper2");
         console.log("Mail sent successfully!");
         setIsLoggedIn(true);
+        toast.success("Login successful!");
         localStorage.setItem("student", JSON.stringify(response.data?.student));
       } else {
         console.log("Login failed!");
@@ -2155,74 +2158,101 @@ function LoginForm({
     }
   };
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="space-y-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <span id="error-message" className="text-red-500">
-                {errorMessage}
-              </span>
-            </div>
+    <div className="flex min-h-[85vh] flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="card">
+        <div className="flex flex-col max-w-md shadow-xl card2 shadow-red-100/40 mx-auto p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800">
+          <div className="mb-8 text-center ">
+            <h1 className="my-3 text-4xl font-bold">Sign in</h1>
+            <p className="text-sm dark:text-gray-600">
+              Sign in to access your account
+            </p>
           </div>
+          <form
+            noValidate=""
+            action=""
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData);
+              // console.log("Form Data:", data);
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
+              const response = await axios.post(apiUrl + "login", data); // await added here
+              console.log("Response:", response.data);
+              console.log(response.data.status);
+              if (response.data.status === 200) {
+                setTestPaper("testpaper2");
+                console.log("Mail sent successfully!");
+                setIsLoggedIn(true);
+                toast.success("Login successful!");
+                localStorage.setItem(
+                  "student",
+                  JSON.stringify(response.data?.student)
+                );
+              } else {
+                console.log("Login failed!");
+                alert(response.data.message);
+                setIsLoggedIn(false);
+              }
+            }}
+            className="space-y-12"
+          >
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="email" className="block mb-2 text-sm">
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="leroy@jenkins.com"
+                  className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                />
+              </div>
+              <div>
+                <div className="flex justify-between mb-2">
+                  <label htmlFor="password" className="text-sm">
+                    Password
+                  </label>
+                  <a
+                    rel="noopener noreferrer"
+                    href="#"
+                    className="text-xs hover:underline dark:text-gray-600"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="*****"
+                  className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                />
+              </div>
             </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="block w-full indent-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span id="error-message" className="text-red-500">
-                {isPasswordError}
-              </span>
+            <div className="space-y-2">
+              <div>
+                <button
+                  type="submit"
+                  className="w-full px-8 py-2 font-semibold rounded-md dark:bg-red-600 bg-red-500 text-white"
+                >
+                  Sign in
+                </button>
+              </div>
+              <p className="px-6 pt-6 text-sm text-center dark:text-gray-600">
+                Don't have an account yet?
+                <Link
+                  rel="noopener noreferrer"
+                  to="/contact"
+                  className="hover:underline dark:text-red-600"
+                >
+                  Sign up
+                </Link>
+                .
+              </p>
             </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              onClick={authenticateUserLogin}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign in
-            </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>

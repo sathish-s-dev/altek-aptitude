@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { apiUrl } from "./Globals";
 import ThankYou from "./ThankYou";
+import toast from "react-hot-toast";
+import "./check.css";
 
 const Question = ({ question, handleAnswer }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -12,29 +14,52 @@ const Question = ({ question, handleAnswer }) => {
   };
 
   return (
-    <div className="border-b border-gray-200 py-6">
-      <h3 className="-my-3 flow-root">
-        <span className="font-medium text-gray-900">
-          <b>{`Question ${question.id}:`}</b> {question.text}
+    <div className="border-b border-gray-200 py-6 max-w-3xl mx-auto">
+      <h3 className="-my-3 flex flex-col">
+        <span className="text-gray-100 font-light text-[10px] w-fit bg-gray-700 rounded-md py-1 px-3">
+          <b>{`Q ${question.id}:`}</b>
         </span>
+        <span className="text-gray-600 font-medium">{question.text}</span>
       </h3>
-      <div className="pt-6">
+      <div className="pt-6 pl-6">
         <div className="space-y-4">
           {question.options.map((option) => (
             <div className="flex items-center" key={option.value}>
-              <input
-                id={`question${question.id}-option${option.value}`}
-                name={`question${question.id}`}
-                value={option.value}
-                type="radio"
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                onChange={handleChange}
-                checked={selectedOption === option.value}
-              />
               <label
                 htmlFor={`question${question.id}-option${option.value}`}
-                className="ml-3 text-black-600"
+                className="text-black-600 flex gap-4 items-center"
               >
+                <div class="checkbox-wrapper">
+                  <input
+                    type="checkbox"
+                    id={`question${question.id}-option${option.value}`}
+                    name={`question${question.id}`}
+                    value={option.value}
+                    className="size-4 border-gray-300 accent-red-600 rounded-full checked:ring-4  text-red-600 ring-red-500"
+                    onChange={handleChange}
+                    checked={selectedOption === option.value}
+                  />
+
+                  <svg viewBox="0 0 35.6 35.6">
+                    <circle
+                      class="background"
+                      cx="17.8"
+                      cy="17.8"
+                      r="17.8"
+                    ></circle>
+                    <circle
+                      class="stroke"
+                      cx="17.8"
+                      cy="17.8"
+                      r="14.37"
+                    ></circle>
+                    <polyline
+                      class="check"
+                      points="11.78 18.12 15.55 22.23 25.17 12.87"
+                    ></polyline>
+                  </svg>
+                </div>
+
                 {option.text}
               </label>
             </div>
@@ -329,17 +354,17 @@ function ConductTest({ questionPaper, questions, username, password }) {
 
     console.log("Final Submission Object:", submissionData);
 
-    try {
-      const response = await axios.post(
-        apiUrl + "submit-answers",
-        submissionData
-      );
+    const response = await axios.post(
+      apiUrl + "submit-answers",
+      submissionData
+    );
+    if (response.status === 200) {
       console.log("Response:", response.data);
       console.log("Mail sent successfully!");
       setIsSubmitted(true);
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Submission failed. Please try again.");
+      toast.success("Submission successful!");
+    } else {
+      toast.error("Submission failed!");
     }
   };
 
@@ -377,7 +402,7 @@ function ConductTest({ questionPaper, questions, username, password }) {
               <button
                 type="submit"
                 onClick={handleSubmit}
-                className="w-24 md:w-32 h-8 md:h-10 justify-center rounded-md bg-indigo-600 text-xs md:text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-24 md:w-32 h-8 md:h-10 justify-center rounded-md bg-red-600 text-xs md:text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
               >
                 Submit
               </button>

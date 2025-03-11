@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +18,8 @@ import java.util.Optional;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
+    private StudentRepository studentRepository;
 
     // Save a new student or update an existing one
     public Student saveStudent(Student student) {
@@ -53,19 +51,17 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public long timeElapsed(String timestampStr) {
-        // String timestampStr = "2025-03-07 17:29:15.556908";
-        // Convert string to LocalDateTime
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        LocalDateTime givenTime = LocalDateTime.parse(timestampStr, formatter);
+    public long timeElapsed(Instant timestamp) {
+        // Convert Instant to LocalDateTime using system's default timezone
+        LocalDateTime givenTime = timestamp.atZone(ZoneId.systemDefault()).toLocalDateTime();
 
         // Get current time
         LocalDateTime now = LocalDateTime.now();
 
-        // Calculate duration between timestamps
+        // Calculate duration
         Duration duration = Duration.between(givenTime, now);
 
-        // Extract days, hours, minutes, seconds
+        // Extract time components
         long days = duration.toDays();
         long hours = duration.toHours() % 24;
         long minutes = duration.toMinutes() % 60;
